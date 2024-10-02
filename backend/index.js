@@ -1,47 +1,55 @@
-const express=require('express');
-const mongoose=require('mongoose');
-const app=express();
-const dotenv=require('dotenv');
-const pinRouter=require('./Routes/Userpin');
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors'); // Move this to the top for clarity
+const pinRouter = require('./Routes/Userpin');
 const userRouter = require('./Routes/User');
-const PORT = process.env.PORT||3600;
-const cors=require('cors');
 
+dotenv.config(); // Load environment variables from .env
 
+const app = express();
+const PORT = process.env.PORT || 3600;
+
+// CORS configuration
 const corsOptions = {
-    origin: 'http://localhost:3000', // Allow only this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify methods you want to allow
-    credentials: true, // Allow credentials if needed
+    origin: 'https://travel-map-rjgc.vercel.app', // Replace with your Vercel domain
 };
+app.use(cors(corsOptions)); // Apply the CORS middleware
 
-// Apply the CORS middleware before defining routes or using other middleware
-app.use(cors(corsOptions));
+app.use(express.json()); // Parse JSON request bodies
 
-dotenv.config();
-app.use(express.json()); // to parser these details into the body in the router we need this
-mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,
-    useUnifiedTopology:true,
-}).then(()=>[
-    console.log('MongoDB connected Successfuly!')
-]).catch((err)=>{console.log(err.message)});
-app.get('/',(req,res)=>{
-    res.send("APP IS WORKING");
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
-app.use('/api/users',userRouter);
-app.use('/api/pins',pinRouter);
+.then(() => {
+    console.log('MongoDB connected successfully!');
+})
+.catch((err) => {
+    console.error('MongoDB connection error:', err.message);
+});
+
+// Basic route for testing
+app.get('/', (req, res) => {
+    res.send("APP IS WORKING");
+});
+
+// Route handlers
+app.use('/api/users', userRouter);
+app.use('/api/pins', pinRouter);
+
+// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something went wrong!');
 });
 
-
-
-app.listen(PORT,(error)=>{
-    if(error){
-        console.log(`${error.message}`);
+// Start the server
+app.listen(PORT, (error) => {
+    if (error) {
+        console.error(`Error starting server: ${error.message}`);
+    } else {
+        console.log(`The server is running on port: ${PORT}`);
     }
-    else{
-        console.log(`the server is running on port no :${PORT}`);
-    }
-
-})
+});
