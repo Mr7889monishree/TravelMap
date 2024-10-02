@@ -37,7 +37,7 @@ const Register = ({setShowregister}) => {
             LamaPin
         </div>
 
-            <form onSubmit={handelSubmit}>
+            <form onSubmit={()=>handelSubmit()}>
                 <input type="text" placeholder='Enter Username' ref={nameRef}/>
                 <input type="email" placeholder='Enter MailID' ref={emailRef}/>
                 <input type="password" placeholder='Enter Password' ref={passRef} />
