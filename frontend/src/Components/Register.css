@@ -1,0 +1,53 @@
+.RegisterContainer{
+    width: 300px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    color: slateblue;
+    font-size: 18px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    font-weight: 750;
+}
+
+.Register-button{
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    background-color: slateblue;
+    cursor: pointer;
+}
+.success{
+    color:green;
+    font-size: 15px;
+    text-align: center;
+    font-family: 'poppins';
+}
+.failure{
+    color: red;
+    font-size: 15px;
+    text-align: center;
+    font-family: 'poppins';
+
+}
+.registerCancel{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
